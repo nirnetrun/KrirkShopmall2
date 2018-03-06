@@ -42,6 +42,10 @@ public class RegisterFragment extends Fragment {
 
     private void UploadtoServer() {
 
+//        get value from
+
+
+
     }
 
     @Override
