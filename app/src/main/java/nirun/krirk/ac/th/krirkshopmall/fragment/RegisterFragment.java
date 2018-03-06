@@ -10,15 +10,24 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.RadioGroup;
 
 import nirun.krirk.ac.th.krirkshopmall.MainActivity;
 import nirun.krirk.ac.th.krirkshopmall.R;
+import nirun.krirk.ac.th.krirkshopmall.utility.MyAlert;
 
 /**
  * Created by nirun on 6/3/2561.
  */
 
 public class RegisterFragment extends Fragment {
+    // Explicat
+    private String nameString,userString, passwordString,modeString;
+    private boolean aBoolean = true;
+
+
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -26,8 +35,29 @@ public class RegisterFragment extends Fragment {
         //create toolbar
         createToolbar();
 
+        // radio control
+        radioControl();
+
 
     }//main method
+
+    private void radioControl() {
+        RadioGroup radioGroup = getView().findViewById(R.id.ragmode);
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                aBoolean = false;
+                switch (i){
+                    case R.id.radowner:
+                        modeString = "OwnerShop"
+                        break;
+                    case R.id.radcustomer:
+                        modeString = "CudtomShop"
+                        break;
+                }
+            }
+        });
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -44,6 +74,27 @@ public class RegisterFragment extends Fragment {
 
 //        get value from
 
+        EditText nameEdttext = getView().findViewById(R.id.edtneme);
+        EditText userEdtText = getView().findViewById(R.id.edtuser);
+        EditText passwordedttext = getView().findViewById(R.id.edtpassword);
+
+        nameString = nameEdttext.getText().toString().trim();
+        userString = userEdtText.getText().toString().trim();
+        passwordString = passwordedttext.getText().toString().trim();
+
+
+        // check Space
+        if (nameString.isEmpty() || userString.isEmpty() || passwordString.isEmpty()) {
+            // have space
+
+            MyAlert myAlert = new MyAlert(getActivity());
+            myAlert.myDialog(getString(R.string.title_have_space),getString(R.string.message_have_space));
+        }else  if(aBoolean){
+            MyAlert myAlert = new MyAlert(getActivity());
+            myAlert.myDialog("Non Choose Mode","plase Choose Mode");
+        }
+
+        }else {
 
 
     }
