@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">KrirkShopmall</string>
+    <string name="user">user</string>
+    <string name="password">password</string>
+    <string name="register">register</string>
+    <string name="message_have_space">Please fill all blank</string>
 </resources>
