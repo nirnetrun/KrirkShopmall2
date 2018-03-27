@@ -12,10 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import nirun.krirk.ac.th.krirkshopmall.MainActivity;
 import nirun.krirk.ac.th.krirkshopmall.R;
+import nirun.krirk.ac.th.krirkshopmall.utility.AddNewUserToserver;
 import nirun.krirk.ac.th.krirkshopmall.utility.MyAlert;
+import nirun.krirk.ac.th.krirkshopmall.utility.MyConstant;
 
 /**
  * Created by nirun on 6/3/2561.
@@ -49,10 +52,10 @@ public class RegisterFragment extends Fragment {
                 aBoolean = false;
                 switch (i){
                     case R.id.radowner:
-                        modeString = "OwnerShop"
+                        modeString = "OwnerShop";
                         break;
                     case R.id.radcustomer:
-                        modeString = "CudtomShop"
+                        modeString = "CudtomShop";
                         break;
                 }
             }
@@ -85,19 +88,39 @@ public class RegisterFragment extends Fragment {
 
         // check Space
         if (nameString.isEmpty() || userString.isEmpty() || passwordString.isEmpty()) {
-            // have space
-
+//            Have Space
             MyAlert myAlert = new MyAlert(getActivity());
-            myAlert.myDialog(getString(R.string.title_have_space),getString(R.string.message_have_space));
-        }else  if(aBoolean){
+            myAlert.myDialog(getString(R.string.title_have_space),
+                    getString(R.string.message_have_space));
+        } else if (aBoolean) {
+//            Non Choose Mode
             MyAlert myAlert = new MyAlert(getActivity());
-            myAlert.myDialog("Non Choose Mode","plase Choose Mode");
-        }
+            myAlert.myDialog("Non Choose Mode", "Please Choose Mode");
 
-        }else {
+        } else {
+//            Choose Mode OK
+
+                try {
+                    MyConstant myConstant = new MyConstant();
+                    AddNewUserToserver addNewUserToserver = new AddNewUserToserver(getActivity());
+                    addNewUserToserver.execute(nameString, userString, passwordString, modeString, myConstant.getUrlAddUserString());
+
+                    String result = addNewUserToserver.get();
+                    if ( Boolean.parseBoolean(result)){
+                        getActivity().getSupportFragmentManager().popBackStack();
+
+                    }else {
+                        Toast.makeText(getActivity(),"Press Try Again Cannot Add User",Toast.LENGTH_LONG).show();
+
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
+        }// IF
 
 
-    }
+    }// UPLOAD TOServer
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
